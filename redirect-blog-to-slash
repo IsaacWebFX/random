@@ -1,0 +1,32 @@
+
+<IfModule mod_rewrite.c>
+    ## enable rewrites
+
+    Options +FollowSymLinks
+    RewriteEngine on
+
+    ## =========================================
+    ##          START Custom Rewrite
+    ##  - Applies to the blog section. Adds
+    ##    a slash to the end of every URL.
+    ## =========================================
+
+    # The three rules:
+    # 1 - make sure request is not a specific file
+    # 2 - make sure request is a blog post
+    # 3 - make sure request is not /blogs/
+    # 4 - make sure request is missing the trailing slash
+    # 5 - make the 301 redirect
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_URI} blogs/(.*)
+    RewriteCond %{REQUEST_URI} !blogs/$
+    RewriteCond %{REQUEST_URI} !blogs/(.*)/$
+    RewriteRule ^blogs/(.*)$ <full base URL>/blogs/$1/ [R=301,L]
+
+    ## =========================================
+    ##          END Custom Rewrite
+    ## =========================================
+
+
+</IfModule>
